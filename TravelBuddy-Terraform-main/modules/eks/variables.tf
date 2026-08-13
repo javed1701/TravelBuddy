@@ -1,0 +1,15 @@
+variable "project_name" {
+  type = string
+}
+
+variable "subnet_ids" {
+  type = list(string)
+}
+
+variable "cluster_role_arn" {
+  type = string
+}
+
+variable "worker_role_arn" {
+  type = string
+}
