@@ -13,6 +13,12 @@ resource "aws_instance" "sonarqube" {
     var.security_group_id
   ]
 
+  root_block_device {
+    volume_size           = 30
+    volume_type            = "gp3"
+    delete_on_termination = true
+  }
+
   user_data = file("${path.module}/userdata.sh")
 
   tags = {

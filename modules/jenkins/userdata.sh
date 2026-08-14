@@ -1,26 +1,23 @@
 #!/bin/bash
 
-yum update -y
+# Install Java and dependencies
+sudo apt update -y
+sudo apt install -y fontconfig openjdk-21-jre curl gnupg ca-certificates
 
-dnf install java-17-amazon-corretto -y
+# Add Jenkins GPG key
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key \
+| sudo gpg --dearmor -o /usr/share/keyrings/jenkins-keyring.gpg
 
-dnf install git -y
+# Add Jenkins repository
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.gpg] https://pkg.jenkins.io/debian-stable binary/" \
+| sudo tee /etc/apt/sources.list.d/jenkins.list
 
-dnf install docker -y
+# Update package list
+sudo apt update -y
 
-systemctl enable docker
+# Install Jenkins
+sudo apt install -y jenkins
 
-systemctl start docker
-
-usermod -aG docker ec2-user
-
-wget -O /etc/yum.repos.d/jenkins.repo \
-https://pkg.jenkins.io/redhat-stable/jenkins.repo
-
-rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
-
-dnf install jenkins -y
-
-systemctl enable jenkins
-
-systemctl start jenkins
+# Enable and start Jenkins
+sudo systemctl enable jenkins
+sudo systemctl start jenkins

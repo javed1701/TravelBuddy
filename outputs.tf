@@ -22,12 +22,21 @@ output "jenkins_instance_id" {
   value = module.jenkins.instance_id
 }
 
+output "jenkins_elastic_ip" {
+  description = "Elastic IP address of Jenkins"
+  value       = module.jenkins.jenkins_elastic_ip
+}
+
 output "sonarqube_private_ip" {
   value = module.sonarqube.private_ip
 }
 
 output "alb_dns_name" {
   value = module.alb.alb_dns_name
+}
+
+output "target_group_arn" {
+  value = module.alb.target_group_arn
 }
 
 output "jenkins_instance_profile" {
@@ -40,14 +49,6 @@ output "eks_cluster_role_arn" {
 
 output "worker_role_arn" {
   value = module.iam.worker_role_arn
-}
-
-output "ecr_repository_name" {
-  value = module.ecr.repository_name
-}
-
-output "ecr_repository_url" {
-  value = module.ecr.repository_url
 }
 
 output "cluster_name" {

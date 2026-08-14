@@ -106,17 +106,8 @@ resource "aws_lb_listener" "http" {
 
   default_action {
 
-    type = "fixed-response"
-
-    fixed_response {
-
-      content_type = "text/plain"
-
-      message_body = "TravelBuddy ALB Working"
-
-      status_code = "200"
-
-    }
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.app.arn
 
   }
 

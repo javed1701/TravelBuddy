@@ -20,32 +20,24 @@ resource "aws_eks_node_group" "workers" {
   node_role_arn = var.worker_role_arn
 
   subnet_ids = var.subnet_ids
-  ami_type = "AL2023_x86_64_STANDARD"
+  ami_type   = "AL2023_x86_64_STANDARD"
 
   instance_types = [
-
     "m7i-flex.large"
-
   ]
+
+  disk_size = 30
 
   capacity_type = "ON_DEMAND"
 
   scaling_config {
-
     desired_size = 2
-
-    min_size = 2
-
-    max_size = 4
-
+    min_size     = 2
+    max_size     = 4
   }
 
   depends_on = [
-
     aws_eks_cluster.eks
-
   ]
 
 }
-
-

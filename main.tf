@@ -30,7 +30,7 @@ module "jenkins" {
   security_group_id = module.security-groups.jenkins_sg_id
   key_name          = var.key_name
   ami_id            = var.ami_id
-  instance_type     = "c7i-flex.large"
+  instance_type     = "m7i-flex.large"
 }
 
 module "sonarqube" {
@@ -41,12 +41,6 @@ module "sonarqube" {
   key_name          = var.key_name
   ami_id            = var.ami_id
   instance_type     = "m7i-flex.large"
-}
-
-module "ecr" {
-  source = "./modules/ecr"
-
-  project_name = var.project_name
 }
 
 module "eks" {
@@ -61,6 +55,7 @@ module "eks" {
 
   worker_role_arn = module.iam.worker_role_arn
 
+  depends_on = [module.iam]
 }
 
 module "alb" {
@@ -87,3 +82,12 @@ module "aws-load-balancer-controller" {
 
 }
 
+resource "aws_security_group_rule" "alb_to_eks_nodes" {
+  type                     = "ingress"
+  from_port                = 0
+  to_port                  = 65535
+  protocol                 = "tcp"
+  security_group_id        = module.eks.cluster_security_group_id
+  source_security_group_id = module.alb.alb_security_group_id
+  description              = "Allow ALB to reach EKS pods/nodes"
+}

@@ -4,7 +4,7 @@ locals {
 
     Project = var.project_name
 
-    Owner = "Javed"
+    Owner = "Amar"
 
     Environment = "Dev"
 
